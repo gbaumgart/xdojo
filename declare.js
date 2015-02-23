@@ -3,11 +3,12 @@
     var __isAMD = !!(typeof define === 'function' && define.amd),
         __isNode = (typeof exports === 'object'),
         __isWeb = !__isNode,
-    //is that enough at some point?
+        //is that enough at some point?
         __isDojoRequire = !!(typeof require === 'function' && require.packs),
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule),
-        __hasDcl = !!(typeof dcl === 'function');
+        __hasDcl = !!(typeof dcl === 'function'),
+        __preferDcl = true; //case when dcl/dcl is not present yet, serves as fallback
 
     define([
         //needed?
@@ -15,13 +16,13 @@
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        __isDojoRequire ? 'dojo/_base/declare' : __hasDcl ? 'dcl/dcl' : null
+        __isDojoRequire ? 'dojo/_base/declare' : __hasDcl ? 'dcl/dcl' : __preferDcl ?  'dcl/dcl' : 'dojo/_base/declare'
 
     ], function (require, exports, module, dDeclare) {
 
         if (dDeclare) {
 
-            var resultingDeclare = null;
+            var resultingDeclare = dDeclare;
 
             //node.js
             if (typeof exports !== "undefined") {
@@ -80,8 +81,10 @@
 
             return dDeclare;
         } else {
+
             //@TODO, add fallback version?
-            debugger;//
+            //we shouldn't be here anyways, dcl or dojo/declare has not been loaded yet!
+            return resultingDeclare;
         }
     });
 }).call(this);
