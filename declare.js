@@ -67,31 +67,33 @@
 
                     if(_patchDCL) {
 
+                        //the Dojo to Dcl converter, see TODO's
+                        function makeClass(name,_class,_declare){
+                            return _declare(null,_class,_class.prototype);
+                        }
+
+                        //in-place base class check & convert from dojo declared base class to dcl base class
+                        //@TODO: recursive and cache !! There is probably more..
+                        function checkClasses(classes,_declare){
+
+                            for (var i = 0, j = classes.length; i < j ; i++) {
+
+                                var o = classes[i];
+
+                                //convert dojo base class
+                                if(o.createSubclass){
+                                    classes[i] = o = makeClass(o.declaredClass,o,handler);
+                                }
+                            }
+                        }
+
                         var _declareFunction = function () {
 
                             var _declaredClass = null,
                                 args = arguments,
                                 context = arguments.callee;//no need actually
 
-                            //the Dojo to Dcl converter, see TODO's
-                            function makeClass(name,_class,_declare){
-                                return _declare(null,_class,_class.prototype);
-                            }
 
-                            //in-place base class check & convert from dojo declared base class to dcl base class
-                            //@TODO: recursive and cache !! There is probably more..
-                            function checkClasses(classes,_declare){
-
-                                for (var i = 0, j = classes.length; i < j ; i++) {
-
-                                    var o = classes[i];
-
-                                    //convert dojo base class
-                                    if(o.createSubclass){
-                                        classes[i] = o = makeClass(o.declaredClass,o,handler);
-                                    }
-                                }
-                            }
 
                             //eat declared string arg
                             if (typeof arguments[0] == 'string') {
@@ -124,6 +126,7 @@
                                     return handler.call(context,args);
                             }
                         };
+
                         return _declareFunction;
                     }
                 }
