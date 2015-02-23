@@ -16,7 +16,7 @@
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        __isDojoRequire ? 'dojo/_base/declare' : __hasDcl ? 'dcl/dcl' : __preferDcl ?  'dcl/dcl' : 'dojo/_base/declare'
+        __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
 
     ], function (require, exports, module, dDeclare) {
 
