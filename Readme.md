@@ -18,18 +18,30 @@
    
 #### Examples
   
-  Usage, if you want use dlc over declare, just make sure you loaded dcl before xdojo/require: 
+Usage, if you want use dlc over declare, just make sure you loaded dcl before xdojo/require: 
+    
+    require(['dcl/dcl', 'xdojo/require','dojo/_base/declare'],function(dcl,xRequire,declare){
+
+        var fooBar = xRequire('foo.bar',null,{}); // works with dcl or dojo
+
+        var myFooBarKid = xRequire('my.foo.bar',[fooBar],{}); // works with dcl or dojo
+
+        //using a Dojo declared class together with a dcl declared class:
         
-        require(['dcl/dcl', 'xdojo/require','dojo/_base/declare'],function(dcl,xRequire,declare){
-    
-            var fooBar = xRequire('foo.bar',null,{}); // works with dcl or dojo
-    
-            var myFooBarKid = xRequire('my.foo.bar',[fooBar],{}); // works with dcl or dojo
-    
-            //using a Dojo declared class together with a dcl declared class:
-            
-            var _myDojoClass = declare('dojoClass',null,{});
-            
-            var _classD2 = dDeclare('my mixed class',[myFooBarKid,_myDojoClass],{});
+        var _myDojoClass = declare('dojoClass',null,{});
         
-        });
+        var _classD2 = dDeclare('my mixed class',[myFooBarKid,_myDojoClass],{});
+    
+    });
+        
+### 'requirejs-dplugins/has' and 'dojo/has'
+
+Currently it just uses the delite version if delite is present, otherwise dojo/has will be returned:
+
+Usage, straight forward:
+
+    //make sure you loaded in your app bootstrap requirejs-dplugins/has, otherwise it
+    //falls back to dojo/has (if present)
+    require(['xdojo/has'],function(has)){
+        
+    });

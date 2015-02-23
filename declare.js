@@ -1,5 +1,6 @@
 (function () {
 
+    //bloody boiler code
     var __isAMD = !!(typeof define === 'function' && define.amd),
         __isNode = (typeof exports === 'object'),
         __isWeb = !__isNode,
@@ -70,7 +71,7 @@
 
                             var _declaredClass = null,
                                 args = arguments,
-                                context = arguments.callee;
+                                context = arguments.callee;//no need actually
 
                             //the Dojo to Dcl converter, see TODO's
                             function makeClass(name,_class,_declare){
