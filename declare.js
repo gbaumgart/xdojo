@@ -29,57 +29,56 @@
                 exports.declare = dDeclare;
             }
 
-
             if (__isNode) {
                 return module.exports;
             } else if (__isWeb && __isAMD) {
 
                 //todo: where to place this?
-                var _preferDCL = true,
-                    _patchDCL = true,   //patch DCL for Dojo declare signature
+                var _patchDCL = true,   //patch DCL for Dojo declare signature
                     handler = dDeclare;
 
                 //now make Dcl working like declare, supporting declaredClass.
                 //This could be done via define('module') and then module.id but i don't trust it.
-                if (__hasDcl && _preferDCL) {
+                if (handler && __preferDcl) {
 
 
                     if(_patchDCL) {
+
                         var _declareFunction = function () {
 
-                            switch (arguments.length) {
+                            var _declaredClass = null,
+                                args = arguments,
+                                context = arguments.callee;
+
+                            //eat string arg
+                            if (typeof arguments[0] == 'string') {
+                                _declaredClass = arguments[0];
+                                args = Array.prototype.slice.call(arguments, 1);
+                            }
+
+                            //patch props for declaredClass
+                            if(_declaredClass) {
+                                args[args.length-1]['declaredClass'] = _declaredClass;
+                            }
+                            switch (args.length) {
                                 // fast cases
                                 case 1:
-                                    return handler.call(arguments[0]);
-                                case 2:
-                                    return handler.call(arguments[0], arguments[1]);
-
-                                // dojo declare signature
-                                case 3:
-                                {
-                                    if (typeof arguments[0] == 'string') {
-
-                                        //patch props
-                                        arguments[2]['declaredClass'] = arguments[0];
-                                        return handler.call(arguments[1], arguments[2]);
-                                    }
-
+                                    return handler.call(context,args[0]);
+                                case 2:{
+                                    return handler.call(context, args[0], args[1]);
                                 }
                                 // fall through
                                 default:
-                                    var args = Array.prototype.slice.call(arguments, 1);
                                     return handler.apply(args);
                             }
                         };
-
                         return _declareFunction;
                     }
-
                 }
                 return dDeclare;
             }
-
             return dDeclare;
+
         } else {
 
             //@TODO, add fallback version?
