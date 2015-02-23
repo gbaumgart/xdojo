@@ -16,7 +16,7 @@
      *
      * - convert dojo base classes recursive, currently it only accepts simple dojo classes, not with multiple
      * base classes but you can use as many dcl base classes as you want.
-     * - deal with un-tested cases
+     * - deal with un-tested cases: nodejs, cjs
      *
      * @example  tested cases:
 
