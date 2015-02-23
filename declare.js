@@ -9,7 +9,13 @@
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule),
         __hasDcl = !!(typeof dcl === 'function'),//false if dcl has not been required yet
-        __preferDcl = true; //case when dcl/dcl is not present yet, serves as fallback
+        __preferDcl = true, //case when dcl/dcl is not present yet, serves as fallback
+            __bases = [
+            //needed?
+            'require',
+            'exports',
+            //should be extended for the missing .config() method when in delite
+            'module'];
 
 
     /**
@@ -33,14 +39,14 @@
      *
      */
 
+    var _declareR = __isDojoRequire ? (__hasDcl && __preferDcl)  ?  'dcl/dcl' :'dojo/_base/declare' : 'dcl/dcl';
     define([
         //needed?
         'require',
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
-
+        _declareR
     ], function (require, exports, module, dDeclare) {
 
         if (dDeclare) {
@@ -59,11 +65,12 @@
                 //todo: where to place this?
                 var _patchDCL = true,     //patch DCL for Dojo declare signature
                     _convertToDCL = true, //if a dojo/declared class is passed, convert it to DCL
-                    handler = dDeclare;
+                    handler = dDeclare,
+                    _isDcl = !dDeclare.safeMixin;
 
                 //now make Dcl working like declare, supporting declaredClass.
                 //This could be done via define('module') and then module.id but i don't trust it.
-                if (handler && __preferDcl) {
+                if (handler && __preferDcl && _isDcl) {
 
                     if(_patchDCL) {
 

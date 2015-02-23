@@ -1,10 +1,9 @@
 (function () {
 
-
     var __isAMD = !!(typeof define === 'function' && define.amd),
         __isNode = (typeof exports === 'object'),
         __isWeb = !__isNode,
-        //is that enough at some point?
+    //is that enough at some point?
         __isDojoRequire = !!(typeof require === 'function' && require.packs),
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule);
@@ -15,7 +14,7 @@
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        __isDojoRequire ? 'dojo/has' : __deliteHas ? 'requirejs-dplugins/has' : null
+        __isDojoRequire ? 'dojo/has' : 'requirejs-dplugins/has'
     ], function (require, exports, module, dHas) {
 
         if (dHas) {
@@ -30,6 +29,8 @@
             }
         } else {
             //@TODO, add simple version?
+            //we shouldn't be here
+            debugger;
         }
     });
 }).call(this);
