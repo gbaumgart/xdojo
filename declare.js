@@ -39,11 +39,11 @@
         //should be extended for the missing .config() method when in delite
         'module',
         'dojo/_base/declare'
-        //__isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
+        __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
 
     ], function (exports, module, dDeclare) {
 
-        console.error('xdeclare',arguments);
+        //console.error('xdeclare',arguments);
 
         if (dDeclare) {
 
