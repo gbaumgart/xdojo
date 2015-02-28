@@ -9,8 +9,7 @@
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule),
         __hasDcl = !!(typeof dcl === 'function'),//false if dcl has not been required yet
-        __preferDcl = !__isDojoRequire; //case when dcl/dcl is not present yet, serves as fallback
-
+        __preferDcl = !__isDojoRequire && __hasDcl;
 
     /**
      * @TODO
@@ -32,20 +31,23 @@
 
      *
      */
+    var _define = define;
 
-    define([
+    _define([
         //needed?
-        'require',
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
+        'dojo/_base/declare'
+        //__isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
 
-    ], function (require, exports, module, dDeclare) {
+    ], function (exports, module, dDeclare) {
+
+        console.error('xdeclare',arguments);
 
         if (dDeclare) {
 
-            var resultingDeclare = dDeclare;
+
 
             //node.js
             if (typeof exports !== "undefined") {
