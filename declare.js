@@ -1,3 +1,4 @@
+//>>excludeStart("hasDcl", kwArgs.hasDcl);
 (function () {
 
     //bloody boiler code
@@ -38,7 +39,7 @@
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        'dojo/_base/declare'
+        'dojo/_base/declare',
         __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
 
     ], function (exports, module, dDeclare) {
@@ -144,3 +145,4 @@
         }
     });
 }).call(this);
+//>>excludeEnd("hasDcl");
