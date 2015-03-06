@@ -1,3 +1,4 @@
+//>>excludeStart("hasDcl", kwArgs.hasDcl);
 (function () {
 
     //bloody boiler code
@@ -9,14 +10,7 @@
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule),
         __hasDcl = !!(typeof dcl === 'function'),//false if dcl has not been required yet
-        __preferDcl = true, //case when dcl/dcl is not present yet, serves as fallback
-            __bases = [
-            //needed?
-            'require',
-            'exports',
-            //should be extended for the missing .config() method when in delite
-            'module'];
-
+        __preferDcl = !__isDojoRequire && __hasDcl;
 
     /**
      * @TODO
@@ -38,20 +32,23 @@
 
      *
      */
+    var _define = define;
 
-    var _declareR = __isDojoRequire ? (__hasDcl && __preferDcl)  ?  'dcl/dcl' :'dojo/_base/declare' : 'dcl/dcl';
-    define([
+    _define([
         //needed?
-        'require',
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
-        _declareR
-    ], function (require, exports, module, dDeclare) {
+        'dojo/_base/declare',
+        __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
+
+    ], function (exports, module, dDeclare) {
+
+        //console.error('xdeclare',arguments);
 
         if (dDeclare) {
 
-            var resultingDeclare = dDeclare;
+
 
             //node.js
             if (typeof exports !== "undefined") {
@@ -65,12 +62,11 @@
                 //todo: where to place this?
                 var _patchDCL = true,     //patch DCL for Dojo declare signature
                     _convertToDCL = true, //if a dojo/declared class is passed, convert it to DCL
-                    handler = dDeclare,
-                    _isDcl = !dDeclare.safeMixin;
+                    handler = dDeclare;
 
                 //now make Dcl working like declare, supporting declaredClass.
                 //This could be done via define('module') and then module.id but i don't trust it.
-                if (handler && __preferDcl && _isDcl) {
+                if (handler && __preferDcl) {
 
                     if(_patchDCL) {
 
@@ -149,3 +145,4 @@
         }
     });
 }).call(this);
+//>>excludeEnd("hasDcl");

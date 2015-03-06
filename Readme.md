@@ -4,7 +4,10 @@
 2. unify dojo/_base/declare and dcl/dcl into xdojo/declare: basics done
 3. try to unify dcl && declare's oop into xdojo/declare: basics done
 4. try to merge require.config and dojoConfig: not implemented
- 
+5. dynamic switch for 'delite/domReady', 'dojo/domReady' and 'dojo2/domReady'
+
+
+
 ## Status
 
 ### wrapper for dojo/_lang/declare and dcl/dcl
