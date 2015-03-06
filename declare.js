@@ -1,16 +1,15 @@
-//>>excludeStart("hasDcl", kwArgs.hasDcl);
 (function () {
 
     //bloody boiler code
     var __isAMD = !!(typeof define === 'function' && define.amd),
         __isNode = (typeof exports === 'object'),
         __isWeb = !__isNode,
-        //is that enough at some point?
+    //is that enough at some point?
         __isDojoRequire = !!(typeof require === 'function' && require.packs),
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule),
         __hasDcl = !!(typeof dcl === 'function'),//false if dcl has not been required yet
-        __preferDcl = !__isDojoRequire && __hasDcl;
+        __preferDcl = true;//!__isDojoRequire && __hasDcl;
 
     /**
      * @TODO
@@ -46,6 +45,19 @@
 
         //console.error('xdeclare',arguments);
 
+        if(!__isDojoRequire && __preferDcl) {
+            var _dcl = null;//
+            try {
+
+                _dcl = require('dcl/dcl');
+                if (_dcl) {
+                    dDeclare = _dcl;
+                }
+            } catch (e) {
+
+            }
+        }
+
         if (dDeclare) {
 
 
@@ -66,7 +78,7 @@
 
                 //now make Dcl working like declare, supporting declaredClass.
                 //This could be done via define('module') and then module.id but i don't trust it.
-                if (handler && __preferDcl) {
+                if (handler && __preferDcl && !dDeclare.safeMixin) {
 
                     if(_patchDCL) {
 
@@ -145,4 +157,3 @@
         }
     });
 }).call(this);
-//>>excludeEnd("hasDcl");
