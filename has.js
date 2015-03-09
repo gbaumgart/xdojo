@@ -21,7 +21,6 @@
             if (typeof exports !== "undefined") {
                 exports.has = dHas;
             }
-
             if (__isNode) {
                 return module.exports;
             } else if (__isWeb && __isAMD) {
