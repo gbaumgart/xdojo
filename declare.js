@@ -43,7 +43,15 @@
 
     ], function (exports, module, dDeclare) {
 
-        //console.error('xdeclare',arguments);
+        console.log('xdojo/declare:\n\t  _isAMD:' +__isAMD +
+            "\n\t isNode:" + __isNode +
+            "\n\t isDojoRequire:" + __isDojoRequire +
+            "\n\t isRequireJS:" + __isRequireJS +
+            "\n\t __deliteHas:" + __deliteHas +
+            "\n\t __hasDcl:" + __hasDcl +
+            "\n\t __preferDcl:" + __preferDcl
+        );
+
 
         if(!__isDojoRequire && __preferDcl) {
             var _dcl = null;//
@@ -59,8 +67,6 @@
         }
 
         if (dDeclare) {
-
-
 
             //node.js
             if (typeof exports !== "undefined") {
@@ -95,11 +101,16 @@
 
                                 var o = classes[i];
 
+
+
                                 //convert dojo base class
                                 if(o.createSubclass){
-                                    classes[i] = o = makeClass(o.declaredClass,o,handler);
+                                    var declaredClass =  o.declaredClass || o.prototype.declaredClass;
+                                    var out = makeClass(declaredClass,o,handler);
+                                    classes[i] = o = out;
                                 }
                             }
+                            return classes;
                         }
 
                         var _declareFunction = function () {
@@ -118,7 +129,10 @@
 
                             //patch props for declaredClass, @TODO: not sure dcl() has really only 2 args
                             if(_declaredClass) {
+
+                                //this will add declared class into the new class's prototype
                                 args[args.length-1]['declaredClass'] = _declaredClass;
+
                             }
 
                             switch (args.length) {
@@ -133,8 +147,19 @@
                                     if(!_convertToDCL) {
                                         return handler.call(context, args[0], args[1]);
                                     }
+
                                     //convert base classes if given
-                                    return handler.call(context, args[0]!=null ? checkClasses(args[0]) : args[0] , args[1]);
+                                    /*
+                                    if(handler.Advice && args[0] == null) {
+                                        return handler.call(args[0] != null ? checkClasses(args[0]) : args[0], args[1]);
+                                    }*/
+                                    var bases = args[0] != null ? checkClasses(args[0]) : args[0];
+                                    var proto = args[1];
+                                    /*
+                                    if(handler.Advice && bases) {
+                                        return handler.call(bases, proto);
+                                    }*/
+                                    return handler.call(context, bases, proto);
                                 }
                                 // fall through
                                 default:
