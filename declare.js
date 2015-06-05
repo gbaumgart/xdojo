@@ -38,10 +38,11 @@
         'exports',
         //should be extended for the missing .config() method when in delite
         'module',
+        'xide/utils',
         'dojo/_base/declare',
         __isDojoRequire ? __preferDcl ? 'dcl/dcl' :  'dojo/_base/declare' : 'dcl/dcl'
 
-    ], function (exports, module, dDeclare) {
+    ], function (exports, module,utils,dDeclare) {
 
         console.log('xdojo/declare:\n\t  _isAMD:' +__isAMD +
             "\n\t isNode:" + __isNode +
@@ -65,6 +66,53 @@
 
             }
         }
+
+        ////////////////////////////////////////////////////////////////////
+        //
+        // Extras
+        //
+        ///////////////////////////////////////////////////////////////////
+
+        function addExtras(handler){
+
+            /**
+             *
+             * @param name
+             * @param bases
+             * @param extraClasses
+             * @param implementation
+             * @param defaults
+             * @returns {*}
+             */
+            function classFactory(name, bases, extraClasses, implmentation,defaults) {
+
+
+                var baseClasses = bases!=null ? bases : utils.cloneKeys(defaults || {}),
+                    extras = extraClasses || [],
+                    _name = name || 'xgrid.Base',
+                    _implmentation = implmentation || {};
+
+                if (bases) {
+                    utils.mixin(baseClasses, bases);
+                }
+
+                var classes = [];
+                for (var _class in baseClasses) {
+                    var _classProto = baseClasses[_class];
+                    if ( _classProto) {
+                        classes.push(baseClasses[_class]);
+                    }
+                }
+
+                classes = classes.concat(extras);
+
+                return handler(_name, classes, _implmentation);
+            }
+
+            handler.classFactory=classFactory;
+
+        }
+
 
         if (dDeclare) {
 
@@ -100,9 +148,6 @@
                             for (var i = 0, j = classes.length; i < j ; i++) {
 
                                 var o = classes[i];
-
-
-
                                 //convert dojo base class
                                 if(o.createSubclass){
                                     var declaredClass =  o.declaredClass || o.prototype.declaredClass;
@@ -166,12 +211,14 @@
                                     return handler.call(context,args);
                             }
                         };
-
+                        addExtras(_declareFunction);
                         return _declareFunction;
                     }
                 }
+                addExtras(dDeclare);
                 return dDeclare;
             }
+            addExtras(dDeclare);
             return dDeclare;
 
         } else {
