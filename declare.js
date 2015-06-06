@@ -78,9 +78,9 @@
             /**
              *
              * @param name
-             * @param bases
-             * @param extraClasses
-             * @param implementation
+             * @param bases {object}
+             * @param extraClasses {object[]}
+             * @param implmentation
              * @param defaults
              * @returns {*}
              */
