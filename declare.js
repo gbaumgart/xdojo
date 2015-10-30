@@ -44,6 +44,7 @@
 
     ], function (exports, module,utils,dDeclare) {
 
+        /*
         console.log('xdojo/declare:\n\t  _isAMD:' +__isAMD +
             "\n\t isNode:" + __isNode +
             "\n\t isDojoRequire:" + __isDojoRequire +
@@ -52,6 +53,7 @@
             "\n\t __hasDcl:" + __hasDcl +
             "\n\t __preferDcl:" + __preferDcl
         );
+        */
 
 
         if(!__isDojoRequire && __preferDcl) {
