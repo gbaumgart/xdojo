@@ -1,5 +1,3 @@
-define(['require','module'], function (require,module) {
-
+define(['require'], function (require) {
     return require;
-
 });
