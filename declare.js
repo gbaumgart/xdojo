@@ -9,7 +9,7 @@
         __isRequireJS = !__isDojoRequire,
         __deliteHas = !!(typeof has === 'function' && has.addModule),
         __hasDcl = !!(typeof dcl === 'function'),//false if dcl has not been required yet
-        __preferDcl = true;//!__isDojoRequire && __hasDcl;
+        __preferDcl = false;//!__isDojoRequire && __hasDcl;
 
     /**
      * @TODO
