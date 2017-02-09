@@ -13,7 +13,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git://github.com/gbaumgart/xdojo.git"
+        "url": "git://github.com/xblox/xdojo.git"
     },
     "licenses": [
         {
@@ -21,6 +21,6 @@
             "url": "https://github.com/ibm-js/delite/blob/master/LICENSE"
         }
     ],
-    "bugs": "https://github.com/gbaumgart/xdojo/issues",
-    "homepage": "https://github.com/gbaumgart/xdojo"
+    "bugs": "https://github.com/xblox/xdojo/issues",
+    "homepage": "https://github.com/xblox/xdojo"
 }
